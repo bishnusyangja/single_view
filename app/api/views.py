@@ -9,21 +9,15 @@ from rest_framework.views import APIView
 class FileUploadView(APIView):
     # parser_classes = (FileUploadParser, )
 
-    def dispatch(self, request, *args, **kwargs):
-        print("at dispatch")
-        return super().dispatch(request, *args, **kwargs)
-
     def put(self, request, *args, **kwargs):
-        print("at put method")
-        # import pdb; pdb.set_trace()
-        # print("file printing", self.request.data)
         file_obj = request.FILES.get('file')
         lines = file_obj.readlines()
         rows = {}
         idx = -1
+        headers = []
         for i, item in enumerate(lines):
             values = item.decode('utf-8').strip('\n').split(',')
-            if i == 1:
+            if i == 0:
                 headers = [item.upper().strip() for item in values]
                 try:
                     idx = headers.index('ISWC')
@@ -32,10 +26,13 @@ class FileUploadView(APIView):
                 except Exception as exc:
                     print('IndexExcep', exc)
                     idx = -1
+                print(idx, headers)
             else:
+                print(values)
                 if idx == -1:
                     break
-                'ISWC'
-                rows[headers[0]]
-            print(item.decode('utf-8').strip('\n').split(','))
+                key_item = values[idx]
+                if key_item in headers:
+                    rows[key_item] = {header: values[j] for j, header in enumerate(headers)}
+        print(rows)
         return Response(dict(success='success'), status=200)

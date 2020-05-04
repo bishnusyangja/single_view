@@ -1,13 +1,13 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-//import {Form} from 'antd';
+//import {Form, Input} from 'antd';
 
 function App() {
 
    const handleSubmit = (e) => {
         e.preventDefault();
-        Request().post('/user/register/', {})
+        Request().put('/file-upload/', {})
         .then(function (response) {
              console.log("success");
           })

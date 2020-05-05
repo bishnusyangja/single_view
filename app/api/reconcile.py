@@ -36,6 +36,24 @@ def get_iswc_index(headers):
     return idx
 
 
+def perform_each_line(key_item, iswc_db_check, headers, batch, created_on, values, rows):
+    if key_item and iswc_db_check:
+        params = {f'item_{header}' if header == 'id' else header: values[j]
+                  for j, header in enumerate(headers) if values[j]}
+        params.update(dict(created_on=created_on, batch=batch))
+        if key_item in rows:
+            obj = rows[key_item]
+            old_count = obj_params_count(obj)
+            new_count = len(params.keys())
+            if new_count > old_count:
+                obj = MusicalWork(**params)
+                return obj
+        else:
+            obj = MusicalWork(**params)
+            return obj
+    return None
+
+
 def read_file_content(file):
     logger.info("at read file content")
     lines = file.readlines()
@@ -45,6 +63,7 @@ def read_file_content(file):
     batch = get_random_string()
     created_on = timezone.now()
     db_iswc = get_db_iswc_list()
+
     for i, item in enumerate(lines):
         values = item.decode('utf-8').strip('\n').split(',')
         if i == 0:
@@ -53,21 +72,15 @@ def read_file_content(file):
         else:
             if idx == -1:
                 break
-            key_item = values[idx] # iswc value for that row
-            if key_item and key_item not in db_iswc: # checking the iswc key with database entry
-                params = {f'item_{header}' if header == 'id' else header: values[j]
-                          for j, header in enumerate(headers) if values[j]}
-                params.update(dict(created_on=created_on, batch=batch))
-                if key_item in rows:
-                    obj = rows[key_item]
-                    old_count = obj_params_count(obj)
-                    new_count = len(params.keys())
-                    if new_count > old_count:
-                        obj = MusicalWork(**params)
-                        rows[key_item] = obj
-                else:
-                    obj = MusicalWork(**params)
-                    rows[key_item] = obj
+
+            # iswc value for that row
+            key_item = values[idx]
+            # checking the iswc key with database entry
+            iswc_db_check = key_item not in db_iswc
+
+            obj = perform_each_line(key_item, iswc_db_check, headers, batch, created_on, values, rows)
+            if obj:
+                rows[key_item] = obj
     return rows
 
 

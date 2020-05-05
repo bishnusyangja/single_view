@@ -1,4 +1,7 @@
 from api.models import MusicalWork
+from app.log import get_logger
+
+logger = get_logger()
 
 
 def reconcile_file(file):
@@ -15,6 +18,7 @@ def obj_params_count(obj):
 
 
 def read_file_content(file):
+    logger.info("at read file content")
     lines = file.readlines()
     rows = {}
     idx = -1
@@ -33,19 +37,30 @@ def read_file_content(file):
         else:
             if idx == -1:
                 break
-            key_item = values[idx]
-            if key_item and key_item in rows:
-                obj = rows[key_item]
-                old_count = obj_params_count(obj)
-                params = {f'item_{header}' if header == 'id' else header : values[j]
-                                                for j, header in enumerate(headers) if values[j]}
-                new_count = len(params.keys())
-                if new_count > old_count:
+            key_item = values[idx] # iswc value for that row
+            if key_item:
+                params = {f'item_{header}' if header == 'id' else header: values[j]
+                          for j, header in enumerate(headers) if values[j]}
+                if key_item in rows:
+                    obj = rows[key_item]
+                    old_count = obj_params_count(obj)
+                    print(params)
+                    new_count = len(params.keys())
+                    if new_count > old_count:
+                        obj = MusicalWork(**params)
+                        rows[key_item] = obj
+                else:
                     obj = MusicalWork(**params)
                     rows[key_item] = obj
+    print(headers, idx)
+    print("rows", rows)
     return rows
 
 
 def save_bulk_obj(rows):
     bulk_obj = rows.values()
+    print("at save objects")
+    for item in bulk_obj:
+        print(item)
     MusicalWork.objects.bulk_create(bulk_obj)
+    print("after save")

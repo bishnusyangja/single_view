@@ -5,7 +5,7 @@ from django.db import models
 
 class MusicalWork(models.Model):
     title = models.CharField(max_length=200,  blank=True, default='')
-    contributers = models.TextField()
+    contributors = models.TextField()
     iswc = models.CharField(max_length=100, unique=True)
     source = models.CharField(max_length=50, blank=True, default='')
     item_id = models.BigIntegerField(default=-1)

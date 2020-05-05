@@ -7,4 +7,4 @@ class MusicalWorkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MusicalWork
-        fields = ('pk', 'title', 'contributers', 'iswc', 'item_id')
+        fields = ('pk', 'title', 'contributors', 'iswc', 'item_id')

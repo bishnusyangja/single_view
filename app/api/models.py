@@ -15,6 +15,12 @@ class MusicalWork(models.Model):
 
     created_on = models.DateTimeField()
     modified_on = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ('-iswc', )
+
+    def __str__(self):
+        return self.iswc
     
     def save(self, *args, **kwargs):
         if not self.pk:

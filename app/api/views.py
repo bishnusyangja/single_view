@@ -11,6 +11,9 @@ from rest_framework.views import APIView
 from api.models import MusicalWork
 from api.reconcile import reconcile_file
 from api.serializer import MusicalWorkSerializer
+from app.log import get_logger
+
+logger = get_logger()
 
 
 class FileUploadView(APIView):
@@ -18,6 +21,7 @@ class FileUploadView(APIView):
 
     def put(self, request, *args, **kwargs):
         file = request.FILES.get('file')
+        logger.info("this is message")
         reconcile_file(file)
         return Response(dict(success='success'), status=200)
 

@@ -1,17 +1,17 @@
 from api.models import MusicalWork
 
 
+def reconcile_file(file):
+    rows = read_file_content(file)
+    save_bulk_obj(rows)
+
+
 def obj_params_count(obj):
     count = 0
     for field in ('title', 'contributers', 'iswc', 'source', 'item_id',):
         if getattr(obj, field, ''):
             count += 1
     return count
-
-
-def reconcile_file(file):
-    rows = read_file_content(file)
-    save_bulk_obj(rows)
 
 
 def read_file_content(file):

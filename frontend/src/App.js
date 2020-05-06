@@ -1,34 +1,29 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'
+import {Row, Col, Form, Upload, Button } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 
-import {Button} from 'antd';
 
 function App() {
-
-   const handleSubmit = (e) => {
-        e.preventDefault();
-        Request().put('/file-upload/', {})
-        .then(function (response) {
-             console.log("success");
-          })
-          .catch(function (err) {
-            console.log(err.response);
-          })
-          .finally(function () {
-            console.log('finally block')
-        });
-    };
-
-  return (
-    <div className="App" style={{margin:'20px'}}>
-    <form>
-        <input type="file" />
-        <input type="submit" value="Submit"/>
-    </form>
-
-    </div>
+  return ( <div style={{margin:'20px'}}>
+    <Row>
+      <Col span={5} >
+         <Form>
+        <Form.Item> <Upload >
+            <Button>
+              <UploadOutlined /> Upload
+            </Button>
+          </Upload>
+        </Form.Item>
+        <Form.Item>  <Button type="primary" htmlType="submit">  Submit </Button> </Form.Item>
+      </Form>
+       </Col>
+      <Col span={1} > </Col>
+      <Col span={5} > Hello World </Col>
+   </Row>
+</div>
   );
 }
 

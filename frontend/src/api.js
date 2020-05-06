@@ -1,8 +1,5 @@
 import axios from 'axios'
-//import {environment} from './settings'
-//const base_url = environment.REACT_APP_BACKEND_HOST
-const base_url = 'http://localhost:8000'
-axios.defaults.baseURL = base_url
+axios.defaults.baseURL = 'http://localhost:8000'
 axios.defaults.crossDomain = true
 
 const getRequestObject = () => {
@@ -11,7 +8,6 @@ const getRequestObject = () => {
         axios.defaults.headers.common['Authorization'] = `Token ${authToken}`;
     }
     axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-    axios.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
     return axios;
 }
 

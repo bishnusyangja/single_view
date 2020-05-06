@@ -12,8 +12,8 @@ a simple django application which reconciles data from file and creats API. And 
 - run the django app using `python manage.py runserver` 
 
 
-### For FrontEnd
+### For Frontend
 - install npm on your local machine globally.
 - install yarn using `npm install yarn`
-- run `yarn add` to install all front-end dependencies
+- run `yarn add` or `yarn add package.json` to install all front-end dependencies
 - run `yarn start` to start the front-end app

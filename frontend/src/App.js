@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
+import {useState, UseEffect} from 'react';
 import './App.css';
 import 'antd/dist/antd.css'
 import {Row, Col, Form, Upload, Button, notification } from 'antd';
@@ -7,6 +7,26 @@ import { UploadOutlined } from '@ant-design/icons';
 
 
 function App() {
+
+    const [data, setData] = useState({results: [], count: 0, page: 1});
+
+    const get_data = () => {
+
+        Request().get('/work-single/', data)
+          .then((response) => {
+            setData(response.data)
+          })
+          .catch((error) => {
+            console.log("error in quiz submission")
+          })
+          .finally(() => {
+            console.log('finally block at quiz')
+        });
+    }
+
+    useEffect(() => {
+
+    }, []);
 
     const notify_success = () => {
       notification.open({
@@ -21,6 +41,8 @@ function App() {
 
     const submitForm = () => {
         let data = {};
+        let formData = new FormData();
+        formData.append("file", file);
         Request().put('/upload-file/', data)
           .then((response) => {
             console.log("success")

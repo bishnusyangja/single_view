@@ -4,10 +4,12 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet
+
 from api.models import MusicalWork
 from api.reconcile import reconcile_file
 from api.serializer import MusicalWorkSerializer
@@ -25,7 +27,7 @@ class FileUploadView(APIView):
         return Response(dict(success='success'), status=200)
 
 
-class WorkSingleAPIView(viewsets.ModelViewSet):
+class WorkSingleAPIView(GenericViewSet, mixins.ListModelMixin):
     serializer_class = MusicalWorkSerializer
     queryset = MusicalWork.objects.all()
 

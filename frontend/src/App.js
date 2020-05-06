@@ -1,18 +1,20 @@
 import React from 'react';
-import {useState, UseEffect} from 'react';
+import {useState, useEffect} from 'react';
 import './App.css';
 import 'antd/dist/antd.css'
-import {Row, Col, Form, Upload, Button, notification } from 'antd';
+import {Row, Col, Form, Upload, Button, Table, Pagination, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import Request from './api';
 
 
 function App() {
 
-    const [data, setData] = useState({results: [], count: 0, page: 1});
+    let pagination = {page: 1, pageSize: 1};
 
-    const get_data = () => {
+    const [data, setData] = useState({results: [], count: 0});
 
-        Request().get('/work-single/', data)
+    const get_data = (page, pageSize) => {
+        Request().get('/work-single/', {page: page, page_size: pageSize})
           .then((response) => {
             setData(response.data)
           })
@@ -25,7 +27,7 @@ function App() {
     }
 
     useEffect(() => {
-
+        get_data(pagination.page, pagination.pageSize);
     }, []);
 
     const notify_success = () => {
@@ -42,6 +44,7 @@ function App() {
     const submitForm = () => {
         let data = {};
         let formData = new FormData();
+        let file = '';
         formData.append("file", file);
         Request().put('/upload-file/', data)
           .then((response) => {
@@ -53,6 +56,39 @@ function App() {
           .finally(() => {
             console.log('finally block at quiz')
         });
+    }
+
+    const columns = [
+        {
+        title: 'SN',
+        dataIndex: '',
+        key: 'sn',
+        render: (text, record, index) =>  (data.page - 1) * data.pageSize + index+1,
+      },
+      {
+        title: 'Title',
+        dataIndex: 'title',
+        key: 'title',
+      },
+      {
+        title: 'Contributors',
+        dataIndex: 'contributors',
+        key: 'contributors',
+      },
+      {
+        title: 'ISWC',
+        dataIndex: 'iswc',
+        key: 'iswc',
+      },
+      {
+        title: 'ID',
+        dataIndex: 'item_id',
+        key: 'item_id',
+      },
+    ]
+
+    const onPageChange = (page, pageSize) => {
+        get_data(page, pageSize);
     }
 
   return ( <div style={{margin:'20px'}}>
@@ -70,7 +106,13 @@ function App() {
       </Form>
        </Col>
       <Col span={1} > </Col>
-      <Col span={12} > <h3>Musical Work Listing</h3> </Col>
+      <Col span={12} > <h3>Musical Work Listing</h3>
+        {data && <Table dataSource={data.results} columns={columns} pagination={false}/>}
+                    <Pagination defaultCurrent={1}
+                              pageSize={pagination.pageSize}
+                              total={data.count}
+                              onChange={onPageChange}/>
+      </Col>
    </Row>
 </div>
   );

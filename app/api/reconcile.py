@@ -21,7 +21,7 @@ def obj_params_count(obj):
 
 
 def get_db_iswc_list():
-    # we can keep them in redis
+    # we can keep them in redis for optimisation
     return list(MusicalWork.objects.all().values_list('iswc').order_by('-iswc'))
 
 

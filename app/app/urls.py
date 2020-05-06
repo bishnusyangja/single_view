@@ -15,10 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework.routers import DefaultRouter
 
-from api.views import FileUploadView
+from api.views import FileUploadView, WorkSingleAPIView
+
+router = DefaultRouter()
+
+router.register(r'work-single', WorkSingleAPIView)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('upload-file/', FileUploadView.as_view()),
 ]
+
+
+urlpatterns += router.urls

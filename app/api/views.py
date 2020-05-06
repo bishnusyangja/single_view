@@ -17,7 +17,6 @@ logger = get_logger()
 
 
 class FileUploadView(APIView):
-    # parser_classes = (FileUploadParser, )
 
     def put(self, request, *args, **kwargs):
         file = request.FILES.get('file')
@@ -37,10 +36,16 @@ class WorkSingleAPIView(viewsets.ModelViewSet):
         response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
         writer = csv.writer(response)
+        writer.writerow(['Title', 'Contributors', 'ISWC', 'Item ID'])
         for row in rows:
-            # writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
-            writer.writerow(row)
+            writer.writerow([row.title, row.contributors, row.iswc, row.item_id])
         return response
+
+    def paginate_queryset(self, queryset):
+        page_size = self.request.query_params.get('page_size')
+        if page_size:
+            self.paginator.page_size = page_size
+        return super().paginate_queryset(queryset)
 
     def list(self, request, *args, **kwargs):
         download = request.query_params.get('download', '')

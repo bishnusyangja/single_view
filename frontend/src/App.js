@@ -34,8 +34,9 @@ function App() {
     }
 
   return ( <div style={{margin:'20px'}}>
+    <Row> <h1>Welcome to Musical Work App</h1> </Row>
     <Row>
-      <Col span={5} >
+      <Col span={4} >
          <Form onFinish={submitForm}>
         <Form.Item> <Upload >
             <Button>
@@ -47,7 +48,7 @@ function App() {
       </Form>
        </Col>
       <Col span={1} > </Col>
-      <Col span={5} > Hello World </Col>
+      <Col span={12} > <h3>Musical Work Listing</h3> </Col>
    </Row>
 </div>
   );

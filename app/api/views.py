@@ -40,7 +40,7 @@ class WorkSingleAPIView(GenericViewSet, mixins.ListModelMixin):
         response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
         writer = csv.writer(response)
-        writer.writerow(['Title', 'Contributors', 'ISWC', 'Item ID'])
+        writer.writerow(['Title', 'Contributors', 'ISWC', 'ID'])
         for row in rows:
             writer.writerow([row.title, row.contributors, row.iswc, row.item_id])
         return response

@@ -18,13 +18,13 @@ function App() {
     const get_data = (page, pageSize) => {
         Request().get('/work-single/', {page: page, page_size: pageSize})
           .then((response) => {
-            setData(response.data)
+            setData(response.data);
           })
           .catch((error) => {
-            console.log("error in quiz submission")
+            console.log("error");
           })
           .finally(() => {
-            console.log('finally block at quiz')
+            console.log('finally block')
         });
     }
 
@@ -35,9 +35,20 @@ function App() {
 
     const notify_success = () => {
       notification.open({
-        message: 'Register Successful !!',
+        message: 'Upload Successful !!!',
         description:
-          'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+          'The action completed successfully.',
+        onClick: () => {
+          console.log('Notification Clicked!');
+        },
+      });
+    };
+
+    const notify_error = () => {
+      notification.open({
+        message: 'Error ',
+        description:
+          'Something went wrong with server or your file.',
         onClick: () => {
           console.log('Notification Clicked!');
         },
@@ -51,13 +62,15 @@ function App() {
         console.log(formData);
         Request().put('/upload-file/', formData)
           .then((response) => {
-            console.log("success")
+            console.log("success");
+            notify_success();
           })
           .catch((error) => {
-            console.log("error in quiz submission")
+            console.log("error")
+            notify_error();
           })
           .finally(() => {
-            console.log('finally block at quiz')
+            console.log('finally block')
         });
     }
 

@@ -4,6 +4,7 @@
 #### Matching and reconcilation method
 - First I read the file and get rows from file.
 - first rows are taken as headers, I renamed ID to item_id to make not to confuse with the primary key id.
+- if the required_headers ('iswc', 'contributors', 'id', 'title', 'source', ) not found in headers the file is rejected.
 - then I find the index of ISWC because this is the unique field in this data.
 - if ISWC column is empty in a row that row is ignored
 - I collected all the rows and keep in a dictionary so that I can find the data for an iswc key

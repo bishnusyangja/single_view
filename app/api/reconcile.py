@@ -61,6 +61,7 @@ def perform_each_line(key_item, iswc_db_check, headers, batch, created_on, value
 
 
 def read_file_content(file):
+    required_headers = ('iswc', 'contributors', 'id', 'title', 'source', )
     logger.info("at read file content")
     lines = file.readlines()
     rows = {}
@@ -74,6 +75,9 @@ def read_file_content(file):
         values = item.decode('utf-8').strip('\n').split(',')
         if i == 0:
             headers = [item.lower().strip() for item in values]
+            for h in required_headers:
+                if h not in headers:
+                    return False
             idx = get_iswc_index(headers)
         else:
             if idx == -1:

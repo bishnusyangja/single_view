@@ -21,9 +21,11 @@ class FileUploadView(APIView):
 
     def put(self, request, *args, **kwargs):
         file = request.FILES.get('file')
-        logger.info("this is message")
-        reconcile_file(file)
-        return Response(dict(success='success'), status=200)
+        status = reconcile_file(file)
+        if status:
+            return Response(dict(success='success'), status=200)
+        else:
+            return Response(dict(success='either file type or file content is not supported'), status=400)
 
 
 class WorkSingleAPIView(GenericViewSet, mixins.ListModelMixin):

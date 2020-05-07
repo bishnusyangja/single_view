@@ -11,6 +11,8 @@ function App() {
 
     let pagination = {page: 1, pageSize: 50};
 
+    const [file_data, setFile] = useState({file: null});
+
     const [data, setData] = useState({results: [], count: 0});
 
     const get_data = (page, pageSize) => {
@@ -30,6 +32,7 @@ function App() {
         get_data(pagination.page, pagination.pageSize);
     }, []);
 
+
     const notify_success = () => {
       notification.open({
         message: 'Register Successful !!',
@@ -42,11 +45,11 @@ function App() {
     };
 
     const submitForm = () => {
-        let data = {};
         let formData = new FormData();
-        let file = '';
-        formData.append("file", file);
-        Request().put('/upload-file/', data)
+        console.log(file_data.file);
+        formData.append("file", file_data.file);
+        console.log(formData);
+        Request().put('/upload-file/', formData)
           .then((response) => {
             console.log("success")
           })
@@ -91,15 +94,22 @@ function App() {
         get_data(page, pageSize);
     }
 
+    const fileUploadChange = (file, fileList) => {
+        setFile({file: file.file});
+    }
+
+//    const customReq = () => false;
+
   return ( <div style={{margin:'20px'}}>
     <Row> <div style={{marginBottom: '100px', align: 'center'}}><h1 >Welcome to Musical Work App</h1></div> </Row>
 
     <Row>
       <Col span={4} >
          <Form onFinish={submitForm}>
-        <Form.Item> <Upload >
+        <Form.Item> <Upload  beforeUpload={() => false} onChange={fileUploadChange}>
             <Button>
-              <UploadOutlined /> Select File
+              <UploadOutlined
+                /> Select File
             </Button>
           </Upload>
         </Form.Item>

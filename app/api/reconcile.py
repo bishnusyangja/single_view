@@ -8,8 +8,14 @@ logger = get_logger()
 
 
 def reconcile_file(file):
-    rows = read_file_content(file)
-    save_bulk_obj(rows)
+    try:
+        rows = read_file_content(file)
+        save_bulk_obj(rows)
+    except Exception as exc:
+        logger.info("ExcReconcile\n", str(exc))
+        return False
+    else:
+        return True
 
 
 def obj_params_count(obj):

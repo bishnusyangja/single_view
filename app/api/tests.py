@@ -67,35 +67,35 @@ class UnitTestCase(unittest.TestCase):
         ret = perform_each_line(key_item, iswc_db_check, headers, batch, created_on, values, rows)
         # todo: to check other thing to
         self.assertEqual(type(ret), MusicalWork)
-    #
-    # def test_perform_each_line_with_less_value_and_previous_row(self):
-    #     obj = MusicalWork(source='abc', contributors='jpt', iswc='axbycz', title='some title')
-    #     key_item, batch = 'axbycz', 'rtyuxv'
-    #     iswc_db_check = True
-    #     headers = ('iswc', 'source', 'contributors', 'id', ),
-    #     created_on = timezone.now()
-    #     values = ['axbycz', '', 'shyam', '4']
-    #     rows = {'axbycz': obj}
-    #     ret = perform_each_line(key_item, iswc_db_check, headers, batch, created_on, values, rows)
-    #     self.assertEqual(type(ret), MusicalWork)
-    #     self.assertEqual(ret.iswc, 'axbycz')
-    #     self.assertEqual(ret.contributors, 'jpt')
-    #     self.assertEqual(ret.item_id, -1)
-    #
-    # def test_perform_each_line_with_no_previous_value(self):
-    #     obj = MusicalWork(source='abc', contributors='jpt', iswc='axbycz')
-    #     key_item, batch = 'axbycz', 'rtyuxv'
-    #     iswc_db_check = True
-    #     headers = ('iswc', 'source', 'contributors', 'id', ),
-    #     created_on = timezone.now()
-    #     values = ['axbycz', '', 'shyam', '4']
-    #     rows = {'axbycz': obj}
-    #     ret = perform_each_line(key_item, iswc_db_check, headers, batch, created_on, values, rows)
-    #     self.assertEqual(type(ret), MusicalWork)
-    #     self.assertEqual(ret.iswc, 'axbycz')
-    #     self.assertEqual(ret.contributors, 'axbycz')
-    #     self.assertEqual(ret.item_id, 4)
-    #     self.assertEqual(ret.source, '')
+
+    def test_perform_each_line_with_less_value_and_previous_row(self):
+        obj = MusicalWork(source='abc', contributors='jpt', iswc='axbycz', title='some title')
+        key_item, batch = 'axbycz', 'rtyuxv'
+        iswc_db_check = True
+        headers = ('iswc', 'source', 'contributors', 'id', ),
+        created_on = timezone.now()
+        values = ['axbycz', '', 'shyam', '4']
+        rows = {'axbycz': obj}
+        ret = perform_each_line(key_item, iswc_db_check, headers, batch, created_on, values, rows)
+        self.assertEqual(type(ret), MusicalWork)
+        self.assertEqual(ret.iswc, 'axbycz')
+        self.assertEqual(ret.contributors, 'jpt')
+        self.assertEqual(ret.item_id, -1)
+
+    def test_perform_each_line_with_no_previous_value(self):
+        obj = MusicalWork(source='abc', contributors='jpt', iswc='axbycz')
+        key_item, batch = 'axbycz', 'rtyuxv'
+        iswc_db_check = True
+        headers = ('iswc', 'source', 'contributors', 'id', ),
+        created_on = timezone.now()
+        values = ['axbycz', '', 'shyam', '4']
+        rows = {'axbycz': obj}
+        ret = perform_each_line(key_item, iswc_db_check, headers, batch, created_on, values, rows)
+        self.assertEqual(type(ret), MusicalWork)
+        self.assertEqual(ret.iswc, 'axbycz')
+        self.assertEqual(ret.contributors, 'axbycz')
+        self.assertEqual(ret.item_id, 4)
+        self.assertEqual(ret.source, '')
 
 
 

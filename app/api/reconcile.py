@@ -46,15 +46,19 @@ def perform_each_line(key_item, iswc_db_check, headers, batch, created_on, value
     if key_item and not iswc_db_check:
         params = {f'item_{header}' if header == 'id' else header: values[j]
                   for j, header in enumerate(headers) if values[j]}
-        params.update(dict(created_on=created_on, batch=batch))
+
         if key_item in rows:
             obj = rows[key_item]
             old_count = obj_params_count(obj)
             new_count = len(params.keys())
             if new_count > old_count:
+                params.update(dict(created_on=created_on, batch=batch))
                 obj = MusicalWork(**params)
                 return obj
+            else:
+                return obj
         else:
+            params.update(dict(created_on=created_on, batch=batch))
             obj = MusicalWork(**params)
             return obj
     return None

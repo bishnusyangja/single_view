@@ -9,7 +9,7 @@ class MusicalWork(models.Model):
     contributors = models.TextField()
     iswc = models.CharField(max_length=100, unique=True, db_index=True)
     source = models.CharField(max_length=50, blank=True, default='')
-    item_id = models.BigIntegerField(default=-1)
+    item_id = models.BigIntegerField(blank=True, null=True)
 
     batch = models.CharField(max_length=50, default='', blank=True)
 

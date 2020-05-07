@@ -42,3 +42,7 @@
 
 #### Conclusion
 We can use caching, asynchronous task and multiprocessing with a better combination according the situation and the problem.
+
+####Note
+I have not used any authentication because I think the question is not focused on authentication rather the other task.
+And also the front-end is not so fancy.

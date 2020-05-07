@@ -43,7 +43,7 @@ def get_iswc_index(headers):
 
 
 def perform_each_line(key_item, iswc_db_check, headers, batch, created_on, values, rows):
-    if key_item and iswc_db_check:
+    if key_item and not iswc_db_check:
         params = {f'item_{header}' if header == 'id' else header: values[j]
                   for j, header in enumerate(headers) if values[j]}
         params.update(dict(created_on=created_on, batch=batch))

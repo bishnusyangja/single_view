@@ -9,7 +9,7 @@ import Request from './api';
 
 function App() {
 
-    let pagination = {page: 1, pageSize: 1};
+    let pagination = {page: 1, pageSize: 50};
 
     const [data, setData] = useState({results: [], count: 0});
 
@@ -92,21 +92,23 @@ function App() {
     }
 
   return ( <div style={{margin:'20px'}}>
-    <Row> <h1>Welcome to Musical Work App</h1> </Row>
+    <Row> <div style={{marginBottom: '100px', align: 'center'}}><h1 >Welcome to Musical Work App</h1></div> </Row>
+
     <Row>
       <Col span={4} >
          <Form onFinish={submitForm}>
         <Form.Item> <Upload >
             <Button>
-              <UploadOutlined /> Upload
+              <UploadOutlined /> Select File
             </Button>
           </Upload>
         </Form.Item>
-        <Form.Item>  <Button type="primary" htmlType="submit">  Submit </Button> </Form.Item>
+        <Form.Item>  <Button type="primary" htmlType="submit">  Upload </Button> </Form.Item>
       </Form>
        </Col>
-      <Col span={1} > </Col>
-      <Col span={12} > <h3>Musical Work Listing</h3>
+      <Col span={3} > </Col>
+      <Col span={12} > <h2>Musical Work Listing </h2> <a href="http://localhost:8000/work-single/?download=download">
+           Download All Data </a>
         {data && <Table dataSource={data.results} columns={columns} pagination={false}/>}
                     <Pagination defaultCurrent={1}
                               pageSize={pagination.pageSize}

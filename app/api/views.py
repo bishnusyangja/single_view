@@ -27,6 +27,7 @@ class FileUploadView(APIView):
 
 
 class WorkSingleAPIView(GenericViewSet, mixins.ListModelMixin):
+    authentication_classes = []
     serializer_class = MusicalWorkSerializer
     queryset = MusicalWork.objects.all()
 

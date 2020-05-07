@@ -7,7 +7,8 @@ const getRequestObject = () => {
     if (authToken != null && authToken != ''){
         axios.defaults.headers.common['Authorization'] = `Token ${authToken}`;
     }
-    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+//    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
     return axios;
 }
 

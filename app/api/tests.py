@@ -1,16 +1,16 @@
 import io
-
 from django.test import TestCase
 import unittest
 
-# Create your tests here.
 from django.utils import timezone
+from model_mommy import mommy
 from rest_framework.test import APIClient
 
 from api.models import MusicalWork
 from api.reconcile import get_iswc_index, obj_params_count, perform_each_line
 
 
+# These are unit tests no db operations are carried out within the test so are faster
 class UnitTestCase(unittest.TestCase):
 
     def test_get_iswc_index(self):
@@ -99,26 +99,16 @@ class UnitTestCase(unittest.TestCase):
         self.assertEqual(ret.source, '')
 
 
+# functional tests, these test cases are carried out with db operations and are slower than unit test
+class APITestCase(TestCase):
+    client = APIClient()
 
-# class APITestCase(TestCase):
-#     client = APIClient()
-#
-#     def generate_file(self):
-#         file = io.StringIO()
-#         file.writelines(['title,iswc,contributors\n', 'hari,abdfad,ram|chandra|shyam\n'])
-#         file.name = 'something.csv'
-#         file.seek(0)
-#         return file
-#
-#     def test_file_upload_api(self):
-#         file = self.generate_file()
-#         resp = self.client.put('/upload-file/', data=dict(file=file), format='multipart')
-#         self.assertEqual(resp.status_code, 200)
-#
-#     def test_get_api(self):
-#         resp = self.client.get('/work-single/')
-#         self.assertEqual(resp.status_code, 200)
-#         self.assertEqual(resp.status, 200)
-#
-#     def test_download_api(self):
-#         resp = self.client.get('/work-single/?download=download')
+    def test_get_api(self):
+        mommy.make(MusicalWork, _quantity=5)
+        resp = self.client.get('/work-single/')
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.json().get('count'), 5)
+
+    def test_download_api(self):
+        resp = self.client.get('/work-single/?download=download')
+        self.assertEqual(resp.status_code, 200)

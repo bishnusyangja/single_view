@@ -19,6 +19,7 @@ logger = get_logger()
 
 class FileUploadView(APIView):
     authentication_classes = []
+    http_method_names = ('put', )
 
     def put(self, request, *args, **kwargs):
         file = request.FILES.get('file')
